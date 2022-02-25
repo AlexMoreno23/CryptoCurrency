@@ -6,6 +6,7 @@ import by.morunov.test.service.CryptoCurrencyService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,12 +30,12 @@ public class CurrencyController {
     @PostMapping(name = "/notify")
     public ResponseEntity<UserNotify> addUser(@RequestParam(value = "username") String username,
                                               @RequestParam(value = "cryptoname") String cryptoName,
-                                              UserNotify userNotify){
+                                              UserNotify userNotify) {
         userNotify.setUsername(username);
         userNotify.setCryptocurrency(cryptoCurrencyService.getCurrencyByName(cryptoName));
         cryptoCurrencyService.saveUser(userNotify);
-        cryptoCurrencyService.notifyPrice(userNotify, cryptoCurrencyService.getCurrencyByName(cryptoName).getPrice());
         return new ResponseEntity<>(userNotify, HttpStatus.CREATED);
     }
+
 
 }

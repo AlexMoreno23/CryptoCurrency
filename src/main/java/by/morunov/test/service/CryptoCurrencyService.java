@@ -8,7 +8,6 @@ import by.morunov.test.repo.UserNotifyRepo;
 import com.google.common.collect.ImmutableList;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
-import lombok.extern.log4j.Log4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -26,7 +25,6 @@ import static java.util.stream.Collectors.toList;
 @Service
 @Transactional
 @AllArgsConstructor
-@Log4j
 public class CryptoCurrencyService {
     private static final Logger LOGGER = LoggerFactory.getLogger(CryptoCurrencyService.class);
 
@@ -59,13 +57,14 @@ public class CryptoCurrencyService {
        userNotifyRepo.save(userNotify);
     }
 
-    @Scheduled(fixedDelay = 60000)
-    public void notifyPrice(UserNotify userNotify, Double price2){
-
-        if((double)userNotify.getCryptocurrency().getPrice() > price2) {
-            LOGGER.warn(userNotify.getUsername() + "currency appreciation!");
+    @Scheduled(initialDelay = 300000, fixedRate = 6000)
+    public void notifyPrice(){
+        if(userNotifyRepo.getById(1L).getCryptocurrency().getPrice() > getCurrencyByName(userNotifyRepo.getById(1L).getCryptocurrency().getCrypto()).getPrice()) {
+            LOGGER.warn(userNotifyRepo.getById(1L).getUsername() + "currency appreciation!");
         }
     }
+
+
 
 
 
