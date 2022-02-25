@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/TestCrypto
+    driver-class-name: org.postgresql.Driver
+    username: ${USERNAME_DB}
+    password: ${PASSWORD_DB}
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQL95Dialect
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: off
